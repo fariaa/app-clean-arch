@@ -1,33 +1,30 @@
 package com.compaines.solutions.app.user;
 
-import com.compaines.solutions.adapter.user.port.UserRepositoryImpl;
+import com.compaines.solutions.adapter.user.UserAdapter;
+import com.compaines.solutions.adapter.user.port.UserAdapterImpl;
 import com.compaines.solutions.adapter.user.port.UserRequestImpl;
 import com.compaines.solutions.adapter.user.port.UserResponseImpl;
+import com.compaines.solutions.domain.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-@Repository
-public class UserRepository implements UserRepositoryImpl {
-
-    static List<String> users = new ArrayList<>();
+public class UserRepository implements UserAdapterImpl<UserRequestImpl, UserRepositoryImpl> {
 
     @Override
-    public void save(UserRequestImpl userRequest) {
-        String user = userRequest.getName().concat(" \n ").concat(userRequest.getEmail());
-        users.add(user);
+    public void save(UserRequestImpl userRequest, UserRepositoryImpl userRepository) {
+        User user = UserAdapter.createUser(userRequest);
+        userRepository.save(user);
     }
 
     @Override
-    public List<UserResponseImpl> getAll() {
-
-        List<UserResponseImpl> userResponseList = new ArrayList<>();
-        users.stream().forEach(u -> {
-            String[] parts = u.trim().split("\n");
-            userResponseList.add( new UserResponse(parts[0], parts[1]));
+    public List<UserResponseImpl> getAll(UserRepositoryImpl userRepository) {
+        List<UserResponseImpl> users = new ArrayList<>();
+        List<User> all = userRepository.findAll();
+        all.stream().forEach(user -> {
+            users.add(new UserResponse(user.getName(), user.getEmail()));
         });
-
-        return userResponseList;
+        return users;
     }
 }

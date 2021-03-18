@@ -5,9 +5,8 @@ import com.compaines.solutions.domain.entity.user.factory.UserCustomFactory;
 
 public class UserUseCase implements UserRegisterRepository {
     @Override
-    public UserCustomImpl register(String name, String email) {
+    public User register(String name, String email) {
         UserCustomFactory factory = new UserCustomFactory();
-        User user = factory.create(name, email);
-        return new UserCustom(user.getName(), user.getEmail());
+       return factory.create(name, email);
     }
 }

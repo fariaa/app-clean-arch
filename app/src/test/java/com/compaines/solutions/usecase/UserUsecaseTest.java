@@ -1,6 +1,6 @@
 package com.compaines.solutions.usecase;
 
-import com.compaines.solutions.usecase.user.UserCustomImpl;
+import com.compaines.solutions.domain.entity.User;
 import com.compaines.solutions.usecase.user.UserUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class UserUsecaseTest {
     @DisplayName("Registra usuário com um nome e email válido")
     public void shouldRegisterUserWithNameAndEmail(){
         UserUseCase userUsecase = new UserUseCase();
-        UserCustomImpl user = userUsecase.register(name, email);
+        User user = userUsecase.register(name, email);
 
         assertThat(name).isEqualTo(user.getName());
         assertThat(email).isEqualTo(user.getEmail());

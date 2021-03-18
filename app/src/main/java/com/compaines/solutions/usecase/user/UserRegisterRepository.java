@@ -1,5 +1,7 @@
 package com.compaines.solutions.usecase.user;
 
+import com.compaines.solutions.domain.entity.User;
+
 public interface UserRegisterRepository {
-    public UserCustomImpl register(String name, String email);
+    public User register(String name, String email);
 }

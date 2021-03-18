@@ -12,24 +12,25 @@ import java.util.List;
 @RestController()
 public class UserController {
 
-    UserRepository repo;
+
+    com.compaines.solutions.app.user.UserRepositoryImpl repo;
 
     @Autowired
-    public UserController(UserRepository repo){
+    public UserController(com.compaines.solutions.app.user.UserRepositoryImpl repo){
         this.repo = repo;
     }
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public void userRegister(@RequestBody UserRequest request){
-        UserAdapter userAdapter = new UserAdapter();
-        userAdapter.save(request, repo);
+        UserRepository repository = new UserRepository();
+        repository.save(request, repo);
     }
 
     @GetMapping("/user")
     public List<UserResponseImpl> teste(){
-        UserAdapter userAdapter = new UserAdapter();
-        return userAdapter.getAll(repo);
+        UserRepository repository = new UserRepository();
+        return repository.getAll(repo);
     }
 
 }
